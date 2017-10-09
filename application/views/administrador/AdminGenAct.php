@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('Acceso directo no disponible');
 			</div>
 		</div>
 		<div id="ingresarRegistros" class="col s12 m12 l12">
-			Hola Registros
+			<?php echo $ingresarRegistros; ?>
 		</div>
 	</div>
 	<script type="text/javascript">

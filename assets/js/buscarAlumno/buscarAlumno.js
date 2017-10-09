@@ -66,9 +66,31 @@ app.controller("buscarAlumnoController",function($scope,$http,Registros){
 app.controller("mostrarRegistrosController",function($scope,Registros){
 	$scope.table = Registros.table;
 	$scope.registros = Registros.getRegistros();
-	$scope.data = function(){
-		console.log("Scope",$scope.table);
-		console.log("Service",Registros.table);
-		console.log($scope.registros);
+});
+
+app.controller("ingresarRegistrosController",function($scope){
+	$scope.showContent = function($fileContent){
+		$scope.content = $fileContent;
 	}
 });
+
+app.directive('onReadField',function($parse){
+	return {
+		restric:'A',
+		scope:false,
+		link:function(scope,element,attrs){
+			var fn = $parse(attrs.onReadField);
+			element.on('change',function(onChangeEvent){
+				var reader = new FileReader();
+				reader.onload = function(onLoadEvent){
+					scope.$apply(function(){
+						fn(scope,{$fileContent:onLoadEvent.target.result});
+					});
+				};
+				reader.readAsText((onChangeEvent.srcElement ||
+					onChangeEvent.target).files[0]);
+			});
+		},
+	};
+});
+

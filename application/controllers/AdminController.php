@@ -21,7 +21,8 @@ class AdminController extends CI_Controller
 			'privUsu'=>$this->input->post('
 				privUsuData'),
 			'buscarAlumno'=>$this->load->view('buscarAlumno/baseBuscarAlumno',NULL,TRUE),
-			'mostrarRegistros'=>$this->load->view('buscarAlumno/baseMostrarRegistros',NULL,TRUE)
+			'mostrarRegistros'=>$this->load->view('buscarAlumno/baseMostrarRegistros',NULL,TRUE),
+			'ingresarRegistros'=>$this->load->view('ingresarRegistros/baseIngresarRegistros',NULL,TRUE)
 			);
 		$this->load->view('administrador/AdminGenAct',$data);
 	}
