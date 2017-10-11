@@ -77,7 +77,7 @@ $db['default'] = array(
 	'dsn'	=> 'mysql:host=localhost;dbname=SS',
 	'hostname' => '',
 	'username' => 'root',
-	'password' => '309036571Ln!',
+	'password' => 'InnTec2014',
 	'database' => '',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',

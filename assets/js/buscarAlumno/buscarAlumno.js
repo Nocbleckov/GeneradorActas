@@ -69,9 +69,17 @@ app.controller("mostrarRegistrosController",function($scope,Registros){
 });
 
 app.controller("ingresarRegistrosController",function($scope){
+
 	$scope.showContent = function($fileContent){
-		$scope.content = $fileContent;
+		$fileContent.forEach(function(item){
+			stringToArray(item).then(function(dato){
+				console.log(dato);
+			});
+		});
 	}
+
+
+
 });
 
 app.directive('onReadField',function($parse){
@@ -81,16 +89,41 @@ app.directive('onReadField',function($parse){
 		link:function(scope,element,attrs){
 			var fn = $parse(attrs.onReadField);
 			element.on('change',function(onChangeEvent){
-				var reader = new FileReader();
-				reader.onload = function(onLoadEvent){
-					scope.$apply(function(){
-						fn(scope,{$fileContent:onLoadEvent.target.result});
-					});
-				};
-				reader.readAsText((onChangeEvent.srcElement ||
-					onChangeEvent.target).files[0]);
+				var open = [];
+				var fc = (onChangeEvent.srcElement || onChangeEvent.target);
+				var fs = 0;
+				for(var i = 0;i<fc.files.length;i++){
+					var reader = new FileReader();
+					reader.onloadend = function(onLoadEvent){
+
+						if(onLoadEvent.target.readyState == FileReader.DONE){
+							
+							open.push(onLoadEvent.target.result);
+							fs++;
+
+							if(fs==fc.files.length){
+								scope.$apply(function(){
+									fn(scope,{$fileContent:open});
+								});
+							}
+						}
+					};
+					reader.readAsBinaryString(fc.files[i],"UTF-8");
+				}
+
 			});
 		},
 	};
 });
 
+async function stringToArray(cadena){
+	var arreglo = cadena.split(/[\n]/);
+	return arreglo;
+}
+
+
+//fn(scope,{$fileContent:onLoadEvent.target.result});
+/*reader.readAsText((onChangeEvent.srcElement ||
+onChangeEvent.target).files[0]);*/
+/*console.log((onChangeEvent.srcElement ||
+onChangeEvent.target));*/
